@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public final class MySqlDbConnectionFactory implements SqlDbConnectionFactory {
+public final class MySqlDbConnectionFactory {
 	private final String jdbcDriver;
 	private final String database;
 	private final String username;

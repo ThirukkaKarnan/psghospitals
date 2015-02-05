@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 
 
-public class MySqlDbConnection {
+public class SqlDbConnection {
 	
 	public static void main(String args[]) {
 	
