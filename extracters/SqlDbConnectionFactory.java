@@ -24,18 +24,13 @@ public final class SqlDbConnectionFactory {
      */
     private static final SqlDbConnectionFactory connectionFactory;
     
-    /**
-     * singleton object to contain the Db Connection parameters and properties
-     */
-    private static final DbConnectionParams dbConnectionParams;
     static {
-        // if these properties are not specified, the app will & should fail
-        dbConnectionParams = new DbConnectionParams();
+        /*// if these properties are not specified, the app will & should fail
         try {
-            dbConnectionParams.initalizeDbProperties();
+            DbConnectionParams.initalizeDbProperties();
         } catch(Exception e) {
             //log fatal
-        }
+        }*/
         connectionFactory = new SqlDbConnectionFactory();
         
         //verify the app's boot up
@@ -57,16 +52,16 @@ public final class SqlDbConnectionFactory {
     private Connection getConnectionFromPool() throws Exception {//implement pool
         Connection conn = null;
         try {
-            String jdbcDriver = dbConnectionParams.jdbcDriver;
+            String jdbcDriver = DbConnectionParams.jdbcDriver;
             Class.forName(jdbcDriver).newInstance();
             
-            String database = dbConnectionParams.database;
-            String username = dbConnectionParams.username;
-            String password = dbConnectionParams.password;
+            String database = DbConnectionParams.database;
+            String username = DbConnectionParams.username;
+            String password = DbConnectionParams.password;
             conn = DriverManager.getConnection(database, username, password);
 
             // verifying the connection object's quality
-            String verificationQuery = dbConnectionParams.verificationQuery;
+            String verificationQuery = DbConnectionParams.verificationQuery;
             Statement stmt = conn.createStatement();
             stmt.execute(verificationQuery);
             // stmt.execute("insert into mistaa_overall_stat_student (MISTAA_YEAR_MONTH) values (201104)");
@@ -84,15 +79,22 @@ public final class SqlDbConnectionFactory {
      *
      */
     private static final class DbConnectionParams {
-        private static String jdbcDriver;
-        private static String database;
-        private static String username;
-        private static String password;
-        private static String verificationQuery;
+        private final static String jdbcDriver;
+        private final static String database;
+        private final static String username;
+        private final static String password;
+        private final static String verificationQuery;
         
-        private static final void initalizeDbProperties() throws Exception {
-            // parse the xml and get the values
-            
+        static {
+            jdbcDriver = "com.mysql.jdbc.Driver";
+            database = "";
+            username = "";
+            password = "";
+            verificationQuery = "select 1";
         }
+        
+        /*private static final void initalizeDbProperties() throws Exception {
+            // parse the xml and get the values
+        }*/
     }
 }
