@@ -11,11 +11,11 @@ import java.util.Properties;
 public class PropertyFileCreator {
     
     private static final String CONFIG_FILE = ".\\resources\\db.conf";
-    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DATABASE = "jdbc:mysql://127.0.0.1/psghospitals";
+    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; //"oracle.jdbc.driver.OracleDriver";
+    private static final String DATABASE = "jdbc:mysql://127.0.0.1/psghospitals"; //"jdbc:oracle:thin:@<URL>:<port>:<Dbname>";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
-    private static final String VERIFICATION_QUERY = "select 1;";
+    private static final String VERIFICATION_QUERY = "select 1;"; //from dual;"; //for oracle 
 
     public static void reader() {
         try {
