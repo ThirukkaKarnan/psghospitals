@@ -23,7 +23,7 @@ public class SqlDbConnection {
     }
     
     public static final int OPStatisticsTotal(String mistaaYearMonth) throws Exception {
-        String s="select ifnull(sum(MISTAA_OP_COUNT),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"';";
+        String s="select nvl(sum(MISTAA_OP_COUNT),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"'";
         Connection conn = SqlDbConnectionFactory.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);
@@ -35,7 +35,7 @@ public class SqlDbConnection {
     }
     
     public static final int OPStatisticsGeneral(String mistaaYearMonth) throws Exception {
-        String s="select ifnull(sum(MISTAA_OP_COUNT_GEN),0) from mistaa_overall_stat where mistaa_year_month ='"+mistaaYearMonth+"';";
+        String s="select nvl(sum(MISTAA_OP_COUNT_GEN),0) from mistaa_overall_stat where mistaa_year_month ='"+mistaaYearMonth+"'";
         Connection conn = SqlDbConnectionFactory.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);
@@ -47,7 +47,7 @@ public class SqlDbConnection {
     }
     
     public static final int OPStatisticsSpecial(String mistaaYearMonth) throws Exception {
-        String s="select ifnull(sum(MISTAA_OP_COUNT_SPL),0),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"';";
+        String s="select nvl(sum(MISTAA_OP_COUNT_SPL),0),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"'";
         Connection conn = SqlDbConnectionFactory.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);
@@ -59,7 +59,7 @@ public class SqlDbConnection {
     }
     
     public static final int IPAdmissionsTotal(String mistaaYearMonth) throws Exception {
-        String s="select ifnull(sum(MISTAA_IP_ADM_total),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"';";
+        String s="select nvl(sum(MISTAA_IP_ADM_total),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"'";
         Connection conn = SqlDbConnectionFactory.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);
@@ -72,7 +72,7 @@ public class SqlDbConnection {
     }
     
     public static final int IPAdmissionsGeneral(String mistaaYearMonth) throws Exception {
-        String s="select ifnull(sum(MISTAA_IP_ADM_GW),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"';";
+        String s="select nvl(sum(MISTAA_IP_ADM_GW),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"'";
         Connection conn = SqlDbConnectionFactory.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);
@@ -85,7 +85,7 @@ public class SqlDbConnection {
     }
     
     public static final int IPAdmissionsSemiPrivate(String mistaaYearMonth) throws Exception {
-        String s="select ifnull(sum(MISTAA_IP_ADM_PW),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"';";
+        String s="select nvl(sum(MISTAA_IP_ADM_PW),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"'";
         Connection conn = SqlDbConnectionFactory.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);
@@ -93,12 +93,12 @@ public class SqlDbConnection {
         while(rs.next()) {
             opOutput = rs.getInt(1);
         }
-        //System.out.println(opOutput);
+        System.out.println(opOutput);
         return opOutput;
     }
     
     public static final int IPAdmissionsSpecial(String mistaaYearMonth) throws Exception {
-        String s="select ifnull(sum(MISTAA_IP_ADM_SW),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"';";
+        String s="select nvl(sum(MISTAA_IP_ADM_SW),0) from mistaa_overall_stat where mistaa_year_month = '"+mistaaYearMonth+"'";
         Connection conn = SqlDbConnectionFactory.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);

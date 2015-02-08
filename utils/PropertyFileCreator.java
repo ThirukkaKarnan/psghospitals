@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
-
 public class PropertyFileCreator {
     
     private static final String CONFIG_FILE = ".\\resources\\db.conf";
