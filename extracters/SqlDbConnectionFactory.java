@@ -1,17 +1,22 @@
 package extracters;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Properties;
 
 /**
- * Public Static final (singleton) class to store the state of the JDBC connection(connection 
+ * Public Static (singleton) final class to store the state of the JDBC connection(connection 
  * parameters) and produce SQL connection objects, irrespective of the Db Vendor
  * 
  * Should be the only source of JDBC connections.
  * 
- * Db properties should be moved out to a separate file preferably XML and
- * the file should only be read within this class to get the Db credentials to avoid leakage.
+ * Db properties is moved out to a separate file preferably XML.
+ * TODO Move all properties to a key value pair outside this class.
  * 
  * @author Thirukka Karnan
  *
@@ -25,12 +30,6 @@ public final class SqlDbConnectionFactory {
     private static final SqlDbConnectionFactory connectionFactory;
     
     static {
-        /*// if these properties are not specified, the app will & should fail
-        try {
-            DbConnectionParams.initalizeDbProperties();
-        } catch(Exception e) {
-            //log fatal
-        }*/
         connectionFactory = new SqlDbConnectionFactory();
         
         //verify the app's boot up
@@ -55,6 +54,7 @@ public final class SqlDbConnectionFactory {
             String jdbcDriver = DbConnectionParams.jdbcDriver;
             Class.forName(jdbcDriver).newInstance();
             
+            //TODO get directly from the map and remove 
             String database = DbConnectionParams.database;
             String username = DbConnectionParams.username;
             String password = DbConnectionParams.password;
@@ -64,7 +64,6 @@ public final class SqlDbConnectionFactory {
             String verificationQuery = DbConnectionParams.verificationQuery;
             Statement stmt = conn.createStatement();
             stmt.execute(verificationQuery);
-            // stmt.execute("insert into mistaa_overall_stat_student (MISTAA_YEAR_MONTH) values (201104)");
         } catch (Exception e) {
             // log e
             e.printStackTrace();
@@ -79,22 +78,31 @@ public final class SqlDbConnectionFactory {
      *
      */
     private static final class DbConnectionParams {
-        private final static String jdbcDriver;
-        private final static String database;
-        private final static String username;
-        private final static String password;
-        private final static String verificationQuery;
-        
+        private static String jdbcDriver;
+        private static String database;
+        private static String username;
+        private static String password;
+        private static String verificationQuery;
+        private static final File configFile = new File(".\\resources\\db.conf");
+        //TODO To read from XML file
         static {
-            jdbcDriver = "com.mysql.jdbc.Driver";
-            database = "";
-            username = "";
-            password = "";
-            verificationQuery = "select 1";
+            
+            try(FileReader reader = new FileReader(configFile);) {
+                Properties props = new Properties();
+                props.load(reader);
+                database = props.getProperty("database");
+                jdbcDriver = props.getProperty("jdbcDriver");
+                username = props.getProperty("username");
+                password = props.getProperty("password");
+                verificationQuery = props.getProperty("verificationQuery");
+            } catch(FileNotFoundException e) {
+                //throw fatal
+                System.err.println("File Not Found!! Check for the config file::"+ configFile);
+                e.printStackTrace();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
         }
         
-        /*private static final void initalizeDbProperties() throws Exception {
-            // parse the xml and get the values
-        }*/
     }
 }
